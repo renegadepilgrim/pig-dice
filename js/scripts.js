@@ -1,7 +1,6 @@
 var player = {
     score: 0,
     totalScore:0,
-    roll: [],
     turn:""
 
 }
