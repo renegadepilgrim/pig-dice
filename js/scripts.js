@@ -1,4 +1,10 @@
-var player = {
+var player1 = {
+    score: 0,
+    totalScore:0,
+    turn:true
+
+}
+var player2 = {
     score: 0,
     totalScore:0,
     turn:""
@@ -6,21 +12,31 @@ var player = {
 }
 
 
-
 var turnOver = function(diceRoll) {
   if (diceRoll === 1) {
+    if (player1.turn === false) {
 
-     player.score = 0;
+     player2.score = 0;
+     player1.turn= true;
+     player2.turn= false;
+         alert("player 1's turn is over! Player 2 Begin!")
 
-    alert("player1's turn is over! Player 2 Begin!")
+   } else {
+     player1.score = 0;
+     player1.turn= false;
+     player2.turn= true;
+         alert("player2's turn is over! Player 1 Begin!")
+     }
+   } else  {
+     if (player1.turn === true) {
+         player1.score = player1.score + diceRoll;
+     } else {
+         player2.score = player2.score + diceRoll;
+     }
+   }
+}
 
-// } else if (player.score >= 100) {
-//     alert("player1 wins!")
 
-}    else  {
-        player.score = player.score + diceRoll;
-};
-};
 
 
 
@@ -30,22 +46,48 @@ $(document).ready(function() {
     var diceRoll = Math.floor(Math.random() * (6 - 1)) + 1;
 
     turnOver(diceRoll);
-    alert(player.score);
-
+    alert(player1.score);
+    if (player1.turn === false) {
+      $("button#Rollpl1").hide();
+      $("button#holdpl1").hide();
+    }
   });
   $("button#holdpl1").click(function(event) {
     event.preventDefault();
-    player.totalScore = (player.totalScore + player.score);
-    $("span#player1-score").text("Score: "+player.totalScore);
-    player.score = 0
-    alert(player.totalScore);
-    if (player.totalScore >= 100) {
+    player1.totalScore = (player1.totalScore + player1.score);
+    $("span#player1-score").text("Score: "+player1.totalScore);
+    player1.score = 0
+    $("button#Rollpl1").hide();
+    $("button#holdpl1").hide();
+    $("button#Rollpl2").show();
+    $("button#holdpl2").show();
+    if (player1.totalScore >= 100) {
       alert("a thing")
 
     }
   });
 
+  $("form#player2-board").submit(function(event) {
+    event.preventDefault();
+    var diceRoll = Math.floor(Math.random() * (6 - 1)) + 1;
 
+    turnOver(diceRoll);
+    alert(player2.score);
 
+  });
+  $("button#holdpl2").click(function(event) {
+    event.preventDefault();
+    player2.totalScore = (player2.totalScore + player2.score);
+    $("span#player2-score").text("Score: "+player2.totalScore);
+    player2.score = 0
+    $("button#Rollpl2").hide();
+    $("button#holdpl2").hide();
+    $("button#Rollpl1").show();
+    $("button#holdpl1").show();
+    if (player2.totalScore >= 100) {
+      alert("a thing")
+
+    }
+  });
 
 });
